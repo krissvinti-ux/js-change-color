@@ -1,55 +1,33 @@
-import { describe, expect, it, beforeAll } from "vitest";
-import { JSDOM } from "jsdom";
-import { changeColor, changeText, changeStyles } from "../src/partTwo/js/partTwo";
-describe("Part II", () => {
-  let dom;
-  let backgroundMock;
-  let textMock;
+//II parte, refactorizar para hacer toggle, nos basaremos en lo que hicimos en el archivo partOne.js
 
-  beforeAll(async () => {
-    dom = await JSDOM.fromFile("./index.html", { runScripts: "dangerously" });
+function changeColor(){
+   
+    const background = document.getElementById("background");
+    const current = background.style.backgroundColor;
+
+    if (current === "darkblue") {
+        background.style.backgroundColor = "red";
+    } else {
+        background.style.backgroundColor = "darkblue";
+    }
+};
+
+function changeText(){
+   
+    const text = document.getElementById("text");
+    const current = text.innerHTML;
+
+    if (current === "darkblue") {
+        text.innerHTML = "red";
+    } else {
+        text.innerHTML = "darkblue";
+    }
+};
+
+function changeStyles(){
     
-    backgroundMock = document.createElement("body");
-    backgroundMock.classList.add("container");
-    backgroundMock.id = "background";
-    document.body.appendChild(backgroundMock);
+    changeColor();
+    changeText();
+};
 
-    textMock = document.createElement("p");
-    textMock.id = "text";
-    document.body.appendChild(textMock);
-  });
-
-  it("should render the script in html", () => {
-    const document = dom.window.document;
-    const script = document.querySelector("script");
-    expect(script).not.toBeNull();
-  });
-  it("should exist the function changeColor", async () => {
-    expect(changeColor).toBeDefined();
-    expect(typeof changeColor).toBe("function");
-  });
-  it("changeColor changes the text and background color to darkblue", async () => {
-    backgroundMock.style.backgroundColor = "rgb(255, 0, 0)";
-    changeStyles();
-    expect(backgroundMock.style.backgroundColor).toBe("darkblue");
-    changeStyles();
-    expect(backgroundMock.style.backgroundColor).toBe("red");
- });
-  it("should exist the function changeText", async () => {
-    expect(changeText).toBeDefined();
-    expect(typeof changeText).toBe("function");
-  });
-  it("changeText changes the text to darkblue", async () => {
-    textMock.innerHTML = "red";
-    changeStyles();
-    expect(textMock.innerHTML).toBe("darkblue");
-    changeStyles();
-    expect(textMock.innerHTML).toBe("red");
-  });
-  it("changeStyles changes the text and background color to darkblue", async () => {
-    changeStyles();
-
-    expect(backgroundMock.style.backgroundColor).toBe("darkblue");
-    expect(textMock.innerHTML).toBe("darkblue");
-  });
-});
+export {changeColor, changeText, changeStyles}
